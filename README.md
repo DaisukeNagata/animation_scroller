@@ -185,8 +185,4 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
 
 ## Getting started
 
-* Animate to the tapped UI.
-* The amount of animation can be adjusted by the UI.
-
-
-Please adjust the scroll amount by substituting the value for the 'containerValue' value.
+* In the example, tapping textfiled scrolls to the specified position.
