@@ -10,7 +10,7 @@ class AnimationScroller extends ScrollController{
   double animationValue = 0.0;
   double keyboardHeight = 0.0;
   double _offsetDy = 0.0;
-  double containerValue = 0.0;
+  double _containerValue = 0.0;
   bool animationFlg = true;
 
   onStartScroll(ScrollMetrics metrics) {
@@ -20,7 +20,7 @@ class AnimationScroller extends ScrollController{
   }
 
   onEndScroll(ScrollMetrics metrics) {
-    if (keyboardHeight != 0 && scrollOffset > containerValue && animationFlg) {
+    if (keyboardHeight != 0 && scrollOffset > _containerValue && animationFlg) {
       print(animationFlg);
       animationFlg = false;
     }
@@ -39,7 +39,8 @@ class AnimationScroller extends ScrollController{
         curve: Curves.linear);
   }
 
-  widgetBuild(BuildContext context) {
+  widgetBuild(BuildContext context, double containerValue) {
+    _containerValue = containerValue;
     if (MediaQuery.of(context).viewInsets.bottom != 0 && animationFlg) {
       keyboardHeight = keyboardHeight <= MediaQuery.of(context).viewInsets.bottom ?
       MediaQuery.of(context).viewInsets.bottom :
@@ -50,7 +51,7 @@ class AnimationScroller extends ScrollController{
       scrollOffset = scrollOffset <= position.maxScrollExtent ?
       position.maxScrollExtent : scrollOffset;
 
-      if (scrollOffset != 0 && scrollOffset > containerValue && animationFlg) {
+      if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
         notifyListeners();
       }
     }
@@ -66,17 +67,16 @@ class AnimationScroller extends ScrollController{
     }
   }
 
-  listener(int duration, double containerValue) {
+  listener(int duration) {
     addListener(() {
-      containerValue = containerValue;
-      if (keyboardHeight != 0 && scrollOffset > containerValue && animationFlg) {
+      if (keyboardHeight != 0 && scrollOffset > _containerValue && animationFlg) {
         _animationLogic(duration);
       }
     });
   }
 
   _animationLogic(int duration) {
-    animationValue = scrollOffset - containerValue;
+    animationValue = scrollOffset - _containerValue;
     animateTo(animationValue, duration: Duration(milliseconds: duration), curve: Curves.linear);
   }
 }
