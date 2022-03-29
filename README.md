@@ -75,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
     });
 
     _scrollController.addListener(() {
-      _scrollController.containerValue = _containerValue;
       _scrollController.listener(50);
     });
   }
@@ -84,7 +83,6 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
     double value = (_widgetKey.currentContext?.size?.height ?? 0.0);
     RenderBox box = _widgetKeyBottom.currentContext?.findRenderObject() as RenderBox;
     double offsetFlg = MediaQuery.of(context).size.height - _scrollController.keyboardHeight - value;
-    _scrollController.offsetDy = box.localToGlobal(Offset.zero).dy;
     _scrollController.focusLogic(node, value, box, offsetFlg);
   }
 
@@ -98,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   @override
   Widget build(BuildContext context) {
 
-    _scrollController.widgetBuild(context);
+    _scrollController.widgetBuild(context, _containerValue);
 
     return Scaffold(
       appBar: AppBar(
@@ -106,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
       ),
       body: GestureDetector(
         onTap: () {
-          _scrollController.reset();
           FocusScope.of(context).unfocus();
+          _scrollController.reset();
         },
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
