@@ -7,10 +7,10 @@ class AnimationScroller extends ScrollController{
   int addOne(int value) => value + 1;
 
   double scrollOffset = 0.0;
-  double containerValue = 0.0;
   double animationValue = 0.0;
   double keyboardHeight = 0.0;
-  double offsetDy = 0.0;
+  double _offsetDy = 0.0;
+  double _containerValue = 0.0;
   bool animationFlg = true;
 
   onStartScroll(ScrollMetrics metrics) {
@@ -61,22 +61,24 @@ class AnimationScroller extends ScrollController{
   focusLogic(FocusNode focusNode, double value, RenderBox box, double offsetFlg) {
     switch (focusNode.hasFocus) {
       case true:
+        _offsetDy = box.localToGlobal(Offset.zero).dy;
         animationFlg = true;
-        offsetDy > offsetFlg ? Future(() {notifyListeners();}) : null;
+        _offsetDy > offsetFlg ? Future(() {notifyListeners();}) : null;
         break;
     }
   }
 
-  listener(duration) {
+  listener(int duration, double containerValue) {
     addListener(() {
-      if (scrollOffset > containerValue && animationFlg) {
+      _containerValue = containerValue;
+      if (scrollOffset > _containerValue && animationFlg) {
         _animationLogic(duration);
       }
     });
   }
 
   _animationLogic(int duration) {
-    animationValue = scrollOffset - containerValue;
+    animationValue = scrollOffset - _containerValue;
     animateTo(animationValue, duration: Duration(milliseconds: duration), curve: Curves.linear);
   }
 }
