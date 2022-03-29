@@ -10,20 +10,20 @@ class AnimationScroller extends ScrollController{
   double animationValue = 0.0;
   double keyboardHeight = 0.0;
   double _offsetDy = 0.0;
-  double _containerValue = 0.0;
+  double containerValue = 0.0;
   bool animationFlg = true;
 
   onStartScroll(ScrollMetrics metrics) {
-    debugPrint("Scroll Start");
   }
 
   onUpdateScroll(ScrollMetrics metrics) {
-    debugPrint("Scroll Update");
   }
 
   onEndScroll(ScrollMetrics metrics) {
-    debugPrint("Scroll End");
-    animationFlg = false;
+    if (keyboardHeight != 0 && scrollOffset > containerValue && animationFlg) {
+      print(animationFlg);
+      animationFlg = false;
+    }
   }
 
   reset() {
@@ -50,10 +50,8 @@ class AnimationScroller extends ScrollController{
       scrollOffset = scrollOffset <= position.maxScrollExtent ?
       position.maxScrollExtent : scrollOffset;
 
-      if (scrollOffset != 0 && keyboardHeight == MediaQuery.of(context).viewInsets.bottom && animationFlg) {
-        Future(() {
-          notifyListeners();
-        });
+      if (scrollOffset != 0 && scrollOffset > containerValue && animationFlg) {
+        notifyListeners();
       }
     }
   }
@@ -70,15 +68,15 @@ class AnimationScroller extends ScrollController{
 
   listener(int duration, double containerValue) {
     addListener(() {
-      _containerValue = containerValue;
-      if (scrollOffset > _containerValue && animationFlg) {
+      containerValue = containerValue;
+      if (keyboardHeight != 0 && scrollOffset > containerValue && animationFlg) {
         _animationLogic(duration);
       }
     });
   }
 
   _animationLogic(int duration) {
-    animationValue = scrollOffset - _containerValue;
+    animationValue = scrollOffset - containerValue;
     animateTo(animationValue, duration: Duration(milliseconds: duration), curve: Curves.linear);
   }
 }
