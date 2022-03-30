@@ -8,6 +8,7 @@ class AnimationScroller extends ScrollController{
 
   double scrollOffset = 0.0;
   double animationValue = 0.0;
+  double animationCount = 0.0;
   double keyboardHeight = 0.0;
   double _offsetDy = 0.0;
   double _containerValue = 0.0;
@@ -20,16 +21,17 @@ class AnimationScroller extends ScrollController{
   }
 
   onEndScroll(ScrollMetrics metrics) {
-    if (keyboardHeight != 0 && scrollOffset > _containerValue && animationFlg) {
-      print(animationFlg);
-      animationFlg = false;
+    if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
+      animationLogic(50);
     }
   }
 
   reset() {
+    animationCount = 0;
     animationValue = 0;
     scrollOffset = 0;
     jumpTo(0.0);
+    animationFlg = true;
   }
 
   scrollReturn(int value) {
@@ -69,14 +71,18 @@ class AnimationScroller extends ScrollController{
 
   listener(int duration) {
     addListener(() {
-      if (keyboardHeight != 0 && scrollOffset > _containerValue && animationFlg) {
-        _animationLogic(duration);
+      if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
+        animationLogic(duration);
       }
     });
   }
 
-  _animationLogic(int duration) {
-    animationValue = scrollOffset - _containerValue;
-    animateTo(animationValue, duration: Duration(milliseconds: duration), curve: Curves.linear);
+  animationLogic(int duration) {
+    Future(() {
+      if (animationFlg) {
+        animationValue = scrollOffset - _containerValue;
+        animateTo(animationValue, duration: Duration(milliseconds: duration), curve: Curves.linear);
+      }
+    });
   }
 }
