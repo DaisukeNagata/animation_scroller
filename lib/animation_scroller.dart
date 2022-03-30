@@ -7,10 +7,10 @@ class AnimationScroller extends ScrollController{
   int addOne(int value) => value + 1;
 
   int duration = 0;
+  double keyboardHeight = 0.0;
+  double _offsetDy = 0.0;
   double _scrollOffset = 0.0;
   double _animationValue = 0.0;
-  double _keyboardHeight = 0.0;
-  double _offsetDy = 0.0;
   double _containerValue = 0.0;
   bool animationFlg = true;
 
@@ -45,9 +45,9 @@ class AnimationScroller extends ScrollController{
   widgetBuild(BuildContext context, double containerValue, int duration) {
     _containerValue = containerValue;
     if (MediaQuery.of(context).viewInsets.bottom != 0 && animationFlg) {
-      _keyboardHeight = _keyboardHeight <= MediaQuery.of(context).viewInsets.bottom ?
+      keyboardHeight = keyboardHeight <= MediaQuery.of(context).viewInsets.bottom ?
       MediaQuery.of(context).viewInsets.bottom :
-      _keyboardHeight;
+      keyboardHeight;
     }
 
     if (MediaQuery.of(context).viewInsets.bottom != 0 && hasClients && animationFlg) {
