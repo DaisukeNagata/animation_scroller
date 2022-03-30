@@ -7,12 +7,12 @@ class AnimationScroller extends ScrollController{
   int addOne(int value) => value + 1;
 
   int duration = 0;
+  bool animationFlg = true;
+  double scrollOffset = 0.0;
   double keyboardHeight = 0.0;
   double _offsetDy = 0.0;
-  double _scrollOffset = 0.0;
   double _animationValue = 0.0;
   double _containerValue = 0.0;
-  bool animationFlg = true;
 
   scrollState(ScrollNotification scrollNotification) {
     if (scrollNotification is ScrollStartNotification) {
@@ -20,8 +20,8 @@ class AnimationScroller extends ScrollController{
     } else if (scrollNotification is ScrollUpdateNotification) {
 
     } else if (scrollNotification is ScrollEndNotification) {
-      _scrollOffset = position.maxScrollExtent;
-      if (_scrollOffset != 0 && _scrollOffset > _containerValue && animationFlg) {
+      scrollOffset = position.maxScrollExtent;
+      if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
         animationLogic(duration);
       }
       if (position.maxScrollExtent - offset == _containerValue) {
@@ -31,7 +31,7 @@ class AnimationScroller extends ScrollController{
   }
 
   reset() {
-    _scrollOffset = 0;
+    scrollOffset = 0;
     jumpTo(0.0);
     animationFlg = false;
   }
@@ -51,10 +51,10 @@ class AnimationScroller extends ScrollController{
     }
 
     if (MediaQuery.of(context).viewInsets.bottom != 0 && hasClients && animationFlg) {
-      _scrollOffset = _scrollOffset <= position.maxScrollExtent ?
-      position.maxScrollExtent : _scrollOffset;
+      scrollOffset = scrollOffset <= position.maxScrollExtent ?
+      position.maxScrollExtent : scrollOffset;
 
-      if (_scrollOffset != 0 && _scrollOffset > _containerValue && animationFlg) {
+      if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
         animationLogic(duration);
       }
     }
@@ -72,8 +72,8 @@ class AnimationScroller extends ScrollController{
 
   animationLogic(int duration) {
     Future(() {
-      if (_scrollOffset != 0 && _scrollOffset > _containerValue && animationFlg) {
-        _animationValue = _scrollOffset - _containerValue;
+      if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
+        _animationValue = scrollOffset - _containerValue;
         animateTo(_animationValue, duration: Duration(milliseconds: duration), curve: Curves.linear);
       }
     });
