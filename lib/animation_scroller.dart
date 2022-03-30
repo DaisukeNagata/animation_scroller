@@ -26,6 +26,9 @@ class AnimationScroller extends ScrollController{
       if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
         animationLogic(duration);
       }
+      if (position.maxScrollExtent - offset == _containerValue) {
+        animationFlg = false;
+      }
     }
   }
 
