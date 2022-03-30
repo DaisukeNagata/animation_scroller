@@ -16,9 +16,19 @@ and the Flutter guide for
 
 https://user-images.githubusercontent.com/16457165/160687655-f5abb9bc-5e4a-422f-a313-c53818eaaa07.mov
 
+## Environment
+
+```
+Flutter 2.13.0-0.0.pre.301 • channel master • https://github.com/flutter/flutter.git
+Framework • revision c4585ecc46 (17 hours ago) • 2022-03-29 11:02:09 -0700
+Engine • revision 13414a51e7
+Tools • Dart 2.17.0 (build 2.17.0-248.0.dev) • DevTools 2.11.4
+```
 
 
 ## Example
+
+Some devices may not support the behavior.
 
 ```
 import 'package:animation_scroller/animation_scroller.dart';
@@ -74,16 +84,14 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
       scrollLogic(_focusNode2);
     });
 
-    _scrollController.addListener(() {
-      _scrollController.listener(50);
-    });
+    _scrollController.duration = 100;
   }
 
   scrollLogic(FocusNode node) {
     double value = (_widgetKey.currentContext?.size?.height ?? 0.0);
     RenderBox box = _widgetKeyBottom.currentContext?.findRenderObject() as RenderBox;
     double offsetFlg = MediaQuery.of(context).size.height - _scrollController.keyboardHeight - value;
-    _scrollController.focusLogic(node, value, box, offsetFlg);
+    _scrollController.focusLogic(node, value, box, offsetFlg, _scrollController.duration);
   }
 
   @override
@@ -96,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   @override
   Widget build(BuildContext context) {
 
-    _scrollController.widgetBuild(context, _containerValue);
+    _scrollController.widgetBuild(context, _containerValue, _scrollController.duration);
 
     return Scaffold(
       appBar: AppBar(
@@ -109,13 +117,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
         },
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
-            if (scrollNotification is ScrollStartNotification) {
-              _scrollController.onStartScroll(scrollNotification.metrics);
-            } else if (scrollNotification is ScrollUpdateNotification) {
-              _scrollController.onUpdateScroll(scrollNotification.metrics);
-            } else if (scrollNotification is ScrollEndNotification) {
-              _scrollController.onEndScroll(scrollNotification.metrics);
-            }
+            _scrollController.scrollState(scrollNotification);
             return true;
           },
           child: SingleChildScrollView(
@@ -144,7 +146,6 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                       onChanged: (double value) {
                         setState(() {
                           _containerValue = value;
-                          _scrollController.animationFlg = false;
                         });
                       },
                     ),

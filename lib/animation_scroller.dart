@@ -15,15 +15,17 @@ class AnimationScroller extends ScrollController{
   double _containerValue = 0.0;
   bool animationFlg = true;
 
-  onStartScroll(ScrollMetrics metrics) {
-  }
+  scrollState(ScrollNotification scrollNotification) {
+    if (scrollNotification is ScrollStartNotification) {
 
-  onUpdateScroll(ScrollMetrics metrics) {
-  }
+    } else if (scrollNotification is ScrollUpdateNotification) {
 
-  onEndScroll(ScrollMetrics metrics) {
-    if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
-      animationLogic(duration);
+    } else if (scrollNotification is ScrollEndNotification) {
+      scrollOffset = position.maxScrollExtent;
+
+      if (scrollOffset != 0 && scrollOffset > _containerValue && animationFlg) {
+        animationLogic(duration);
+      }
     }
   }
 
