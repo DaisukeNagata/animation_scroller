@@ -37,6 +37,7 @@ class AnimationScroller extends ScrollController {
   }
 
   scrollReturn(int value) {
+    _animationValue = 0;
     double aValue = (_animationValue ?? 0.0);
 
     animateTo(aValue,
