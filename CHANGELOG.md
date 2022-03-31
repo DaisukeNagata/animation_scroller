@@ -1,4 +1,4 @@
-## 0.1.7
+## 0.1.8
 
 * Animate to the tapped UI.
 * The amount of animation can be adjusted by the UI.
