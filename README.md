@@ -104,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   scrollLogic(FocusNode node) {
     double value = (_widgetKey.currentContext?.size?.height ?? 0.0);
     RenderBox box = _widgetKeyBottom.currentContext?.findRenderObject() as RenderBox;
-    double offsetFlg = MediaQuery.of(context).size.height - _scrollController.keyboardHeight - value;
-    _scrollController.focusLogic(node, value, box, offsetFlg, _scrollController.duration);
+    double offsetFlg = MediaQuery.of(context).size.height - (_scrollController.keyboardHeight ?? 0.0) - value;
+    _scrollController.focusLogic(node, value, box, offsetFlg, (_scrollController.duration ?? 0));
   }
 
   @override
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   @override
   Widget build(BuildContext context) {
 
-    _scrollController.widgetBuild(context, _containerValue, _scrollController.duration);
+    _scrollController.widgetBuild(context, _containerValue, (_scrollController.duration ?? 0));
 
     return Scaffold(
       appBar: AppBar(
@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
         },
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
-            _scrollController.scrollState(scrollNotification);
+            _scrollController.scrollState(scrollNotification, _scrollController.position.maxScrollExtent, _containerValue);
             return true;
           },
           child: SingleChildScrollView(
