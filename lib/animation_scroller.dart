@@ -1,6 +1,7 @@
 library animation_scroller;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
+import 'package:flutter/widgets.dart';
+
 
 class AnimationScroller extends ScrollController{
   /// Returns [value] plus 1.
@@ -24,7 +25,6 @@ class AnimationScroller extends ScrollController{
       scrollOffset = position.maxScrollExtent;
       bool aFlg = (animationFlg ?? false);
       int dValue = (duration ?? 0);
-      double aValue = (_animationValue ?? 0.0);
       double cValue = (_containerValue ?? 0.0);
       double offsetValue = (scrollOffset ?? 0.0);
 
@@ -84,7 +84,6 @@ class AnimationScroller extends ScrollController{
         animationFlg = true;
 
         double offsetDyValue = (_offsetDy ?? 0.0);
-        double offsetValue = (scrollOffset ?? 0.0);
 
         offsetDyValue > offsetFlg ? Future(() {animationLogic(duration);}) : null;
         break;
