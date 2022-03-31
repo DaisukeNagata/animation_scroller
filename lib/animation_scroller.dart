@@ -10,13 +10,11 @@ class AnimationScroller extends ScrollController {
   int? duration;
   double? scrollOffset;
   double? keyboardHeight;
-  double? _offsetDy;
   double? _animationValue;
   double? _containerValue;
 
   scrollState(ScrollNotification scrollNotification, double maxScrollExtent,
       double containerValue) {
-
     //　Check the status of scrollNotification.
     if (scrollNotification is ScrollStartNotification) {
     } else if (scrollNotification is ScrollUpdateNotification) {
@@ -76,19 +74,14 @@ class AnimationScroller extends ScrollController {
 
   focusLogic(FocusNode focusNode, double value, RenderBox box,
       double offsetValue, int duration) {
-
     switch (focusNode.hasFocus) {
       case true:
-        _offsetDy = box.localToGlobal(Offset.zero).dy;
         animationFlg = true;
-
-        double offsetDyValue = (_offsetDy ?? 0.0);
         break;
     }
   }
 
   _animationLogic(int duration) {
-
     Future(() {
       double offsetValue = (scrollOffset ?? 0.0);
       double cValue = (_containerValue ?? 0.0);
