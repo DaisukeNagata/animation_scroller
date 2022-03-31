@@ -14,7 +14,11 @@ and the Flutter guide for
 ## Features
 
 
-https://user-images.githubusercontent.com/16457165/160687655-f5abb9bc-5e4a-422f-a313-c53818eaaa07.mov
+
+https://user-images.githubusercontent.com/16457165/160855117-c595945b-507e-44ae-97ba-cf287d229a84.mov
+
+
+
 
 ## Environment
 
@@ -30,6 +34,16 @@ Tools • Dart 2.17.0 (build 2.17.0-248.0.dev) • DevTools 2.11.4
 
 Some devices may not support the behavior.
 
+
+introduction
+
+```
+// zero Scrolls to the bottom part.　 It is the place of zero
+_scrollController.widgetBuild(context, 0, _scrollController.duration);
+     
+```
+
+All 
 ```
 import 'package:animation_scroller/animation_scroller.dart';
 import 'package:flutter/material.dart';
