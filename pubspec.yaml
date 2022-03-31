@@ -1,10 +1,10 @@
 name: animation_scroller
 description: Animate to the tapped UI. The amount of animation can be adjusted by the UI.
-version: 0.1.4
+version: 0.1.5
 homepage: https://github.com/daisukenagata/animation_scroller
 
 environment:
-  sdk: ">=2.17.0-222.0.dev <3.0.0"
+  sdk: ">=2.17.0-60.0.dev <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
