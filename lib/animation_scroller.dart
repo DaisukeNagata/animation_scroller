@@ -44,15 +44,6 @@ class AnimationScroller extends ScrollController {
     animationFlg = false;
   }
 
-  scrollReturn(int value) {
-    initflg = true;
-    animationFlg = false;
-    _animationValue = 0;
-    double aValue = (_animationValue ?? 0.0);
-
-    animateTo(aValue,
-        duration: Duration(milliseconds: value), curve: Curves.linear);
-  }
 
   widgetBuild(BuildContext context, double containerValue, int duration) {
     bool iflg = (initflg ?? false);
