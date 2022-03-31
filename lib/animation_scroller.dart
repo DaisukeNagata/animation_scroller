@@ -85,7 +85,11 @@ class AnimationScroller extends ScrollController{
 
         double offsetDyValue = (_offsetDy ?? 0.0);
 
-        offsetDyValue > offsetFlg ? Future(() {animationLogic(duration);}) : null;
+        if (offsetDyValue > offsetFlg) {
+          Future(() {
+            animationLogic(duration);
+          });
+        }
         break;
     }
   }
