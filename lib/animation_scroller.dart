@@ -7,13 +7,13 @@ class AnimationScroller extends ScrollController{
   /// Returns [value] plus 1.
   int addOne(int value) => value + 1;
 
-  bool?   animationFlg    = true;
-  int?    duration        = 0;
-  double? scrollOffset    = 0.0;
-  double? keyboardHeight  = 0.0;
-  double? _offsetDy       = 0.0;
-  double? _animationValue = 0.0;
-  double? _containerValue = 0.0;
+  bool?   animationFlg;
+  int?    duration;
+  double? scrollOffset;
+  double? keyboardHeight;
+  double? _offsetDy;
+  double? _animationValue;
+  double? _containerValue;
 
   scrollState(ScrollNotification scrollNotification) {
 
