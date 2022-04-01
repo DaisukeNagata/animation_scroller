@@ -22,7 +22,6 @@ class AnimationScroller extends ScrollController {
     } else if (scrollNotification is ScrollUpdateNotification) {
     } else if (scrollNotification is ScrollEndNotification) {
       scrollOffset = position.maxScrollExtent;
-      int dValue = (durationValue ?? 0);
       bool aFlg = (animationFlg ?? false);
       // Judgment by scroll amount
       _maxScrollExtent = maxScrollExtent;
