@@ -1,6 +1,6 @@
 name: animation_scroller
 description: Animate to the tapped UI. The amount of animation can be adjusted by the UI.
-version: 0.3.0
+version: 0.3.1
 homepage: https://github.com/daisukenagata/animation_scroller
 
 environment:
