@@ -41,17 +41,17 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   void initState() {
     super.initState();
 
+    /// Listen to the notification
     _focusNode.addListener(() {
-      scrollLogic(_focusNode);
+      /// focusNode and go to scroll speed setting
+      _scrollController.speedCheck(_focusNode, 100);
     });
 
+    /// Listen to the notification from focusNode and go to scroll speed setting
     _focusNode2.addListener(() {
-      scrollLogic(_focusNode2);
+      /// focusNode and go to scroll speed setting
+      _scrollController.speedCheck(_focusNode2, 100);
     });
-  }
-
-  scrollLogic(FocusNode node) {
-    _scrollController.speedCheck(node, 100);
   }
 
   @override
@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
+    /// Bind with a widget.
     _scrollController.widgetBuild(context, _containerValue, 100);
 
     return Scaffold(
@@ -72,10 +73,15 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
+
+          /// Initialize scroll value
           _scrollController.reset();
         },
+
+        /// Receive scroll notifications.
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
+            /// Notifies the scroll status.
             _scrollController.scrollState(scrollNotification,
                 _scrollController.position.maxScrollExtent, _containerValue);
             return true;
@@ -100,12 +106,16 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                       divisions: 1000,
                       onChangeStart: (_) {
                         setState(() {
+                          /// The amount of scroll animation.
                           _scrollController.scrollOffset = 0;
-                          _scrollController.initflg = false;
+
+                          /// Judgment flag to make scroll animation the first time
+                          _scrollController.initFlg = false;
                         });
                       },
                       onChanged: (double value) {
                         setState(() {
+                          /// The value of container is useful for the amount of animation.
                           _containerValue = value;
                         });
                       },
@@ -127,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                   keyboardType: TextInputType.datetime,
                   key: _widgetKeyBottom,
                   focusNode: _focusNode2,
+                  /// Initialize scroll value
                   onSubmitted: (value) => _scrollController.reset(),
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),

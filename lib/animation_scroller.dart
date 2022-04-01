@@ -15,10 +15,10 @@ class AnimationScroller extends ScrollController {
   double? _containerValue;
   double? _maxScrollExtent;
 
-  // Notify logic of scroll status.
+  /// Notify logic of scroll status.
   scrollState(ScrollNotification scrollNotification, double maxScrollExtent,
       double containerValue) {
-    //　Check the status of scrollNotification.
+    ///　Check the status of scrollNotification.
     if (scrollNotification is ScrollStartNotification) {
     } else if (scrollNotification is ScrollUpdateNotification) {
     } else if (scrollNotification is ScrollEndNotification) {
@@ -33,7 +33,7 @@ class AnimationScroller extends ScrollController {
     }
   }
 
-  // Initialization of each value.
+  /// Initialization of each value.
   reset() {
     initFlg = true;
     durationValue = 0;
@@ -46,7 +46,7 @@ class AnimationScroller extends ScrollController {
     animationFlg = false;
   }
 
-  // Bind with a widget.
+  /// Bind with a widget.
   widgetBuild(BuildContext context, double containerValue, int duration) {
     bool iFlg = (initFlg ?? false);
     bool aFlg = (animationFlg ?? false);
@@ -54,7 +54,7 @@ class AnimationScroller extends ScrollController {
     double cValue = (_containerValue ?? 0.0);
     double offsetValue = (scrollOffset ?? 0.0);
 
-    // Scroll judgment.
+    /// Scroll judgment.
     if (aFlg) {
       /// Substitute keyboard height.
       kValue = kValue <= MediaQuery.of(context).viewInsets.bottom
@@ -81,7 +81,7 @@ class AnimationScroller extends ScrollController {
     }
   }
 
-  // Speed set and flg check.
+  /// Speed set and flg check.
   speedCheck(FocusNode focusNode, int value) {
     ///　check focusNode state.
     switch (focusNode.hasFocus) {
@@ -92,7 +92,7 @@ class AnimationScroller extends ScrollController {
     }
   }
 
-  // Scroll animation.
+  /// Scroll animation.
   _animationLogic(int duration) {
     Future(() {
       double offsetValue = (scrollOffset ?? 0.0);
