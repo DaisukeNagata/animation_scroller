@@ -43,7 +43,6 @@ class AnimationScroller extends ScrollController {
     animationFlg = false;
   }
 
-
   widgetBuild(BuildContext context, double containerValue, int duration) {
     bool iflg = (initflg ?? false);
     bool aFlg = (animationFlg ?? false);
