@@ -56,7 +56,6 @@ class AnimationScroller extends ScrollController {
 
     // Scroll judgment.
     if (aFlg) {
-
       /// Substitute keyboard height.
       kValue = kValue <= MediaQuery.of(context).viewInsets.bottom
           ? MediaQuery.of(context).viewInsets.bottom
@@ -70,6 +69,7 @@ class AnimationScroller extends ScrollController {
       /// Scroll judgment
       if (offsetValue > cValue && iFlg) {
         animationFlg = false;
+
         /// Scroll animation method
         _animationLogic(duration);
       } else if (!iFlg) {
