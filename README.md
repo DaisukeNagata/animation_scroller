@@ -13,7 +13,7 @@ and the Flutter guide for
 
 # Pub.dev Version
 
-[![Pub Version](https://img.shields.io/pub/v/animation_scroller?color=emerald)](https://pub.dev/packages/animation_scroller/versions/0.2.5)
+[![Pub Version](https://img.shields.io/pub/v/animation_scroller?color=emerald)](https://pub.dev/packages/animation_scroller/versions/)
 
 
 ## Movie
