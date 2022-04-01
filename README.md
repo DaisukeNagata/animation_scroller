@@ -17,16 +17,6 @@ and the Flutter guide for
 [![Pub Version](https://img.shields.io/pub/v/animation_scroller?color=emerald)](https://pub.dev/packages/animation_scroller/versions/)
 
 
-## Movie
-
-
-
-
-
-https://user-images.githubusercontent.com/16457165/160855117-c595945b-507e-44ae-97ba-cf287d229a84.mov
-
-
-
 
 ## Environment
 
