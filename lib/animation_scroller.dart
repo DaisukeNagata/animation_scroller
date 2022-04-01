@@ -23,7 +23,8 @@ class AnimationScroller extends ScrollController {
     } else if (scrollNotification is ScrollEndNotification) {
       scrollOffset = position.maxScrollExtent;
       bool aFlg = (animationFlg ?? false);
-      // Judgment by scroll amount
+
+      /// Judgment by scroll amount
       _maxScrollExtent = maxScrollExtent;
       if (_maxScrollExtent == containerValue && aFlg) {
         animationFlg = false;
@@ -43,6 +44,7 @@ class AnimationScroller extends ScrollController {
     animationFlg = false;
   }
 
+  // Bind with a widget.
   widgetBuild(BuildContext context, double containerValue, int duration) {
     bool iflg = (initflg ?? false);
     bool aFlg = (animationFlg ?? false);
@@ -72,7 +74,8 @@ class AnimationScroller extends ScrollController {
     }
   }
 
-  focusLogic(FocusNode focusNode, int value) {
+  // Speed set and flg check
+  speedCheck(FocusNode focusNode, int value) {
     switch (focusNode.hasFocus) {
       case true:
         durationValue = value;
@@ -81,6 +84,7 @@ class AnimationScroller extends ScrollController {
     }
   }
 
+  // Scroll animation
   _animationLogic(int duration) {
     Future(() {
       double offsetValue = (scrollOffset ?? 0.0);

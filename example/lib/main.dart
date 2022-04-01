@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   }
 
   scrollLogic(FocusNode node) {
-    _scrollController.focusLogic(node, 100);
+    _scrollController.speedCheck(node, 100);
   }
 
   @override
