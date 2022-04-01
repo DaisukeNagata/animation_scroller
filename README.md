@@ -11,9 +11,9 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-# Badges for Flutter
+# Pub.dev Version
 
-[![Pub Version](https://img.shields.io/pub/v/badges?color=emerald)](https://img.shields.io/pub/v/animation_scroller)
+[![Pub Version](https://img.shields.io/pub/v/animation_scroller?color=emerald)](https://pub.dev/packages/animation_scroller/versions/0.2.5)
 
 
 ## Movie
