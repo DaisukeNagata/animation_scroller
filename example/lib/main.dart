@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                       onChangeStart: (_) {
                         setState(() {
                           _scrollController.scrollOffset = 0;
-                          _scrollController.initFlg = false;
+                          _scrollController.initflg = false;
                         });
                       },
                       onChanged: (double value) {
