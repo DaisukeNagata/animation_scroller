@@ -6,7 +6,7 @@ class AnimationScroller extends ScrollController {
   /// Returns [value] plus 1.
   int addOne(int value) => value + 1;
 
-  bool? initflg;
+  bool? initFlg;
   bool? animationFlg;
   int? durationValue;
   double? scrollOffset;
@@ -35,7 +35,7 @@ class AnimationScroller extends ScrollController {
 
   // Initialization of each value.
   reset() {
-    initflg = true;
+    initFlg = true;
     durationValue = 0;
     scrollOffset = 0.0;
     keyboardHeight = 0.0;
@@ -48,7 +48,7 @@ class AnimationScroller extends ScrollController {
 
   // Bind with a widget.
   widgetBuild(BuildContext context, double containerValue, int duration) {
-    bool iflg = (initflg ?? false);
+    bool iFlg = (initFlg ?? false);
     bool aFlg = (animationFlg ?? false);
     double kValue = (keyboardHeight ?? 0.0);
     double cValue = (_containerValue ?? 0.0);
@@ -68,11 +68,11 @@ class AnimationScroller extends ScrollController {
           : (scrollOffset ?? 0.0);
 
       /// Scroll judgment
-      if (offsetValue > cValue && iflg) {
+      if (offsetValue > cValue && iFlg) {
         animationFlg = false;
         /// Scroll animation method
         _animationLogic(duration);
-      } else if (!iflg) {
+      } else if (!iFlg) {
         /// Scroll animation method
         _animationLogic(duration);
       }
