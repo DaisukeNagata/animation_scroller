@@ -43,153 +43,111 @@ _scrollController.widgetBuild(context, 0, _scrollController.duration);
 
 All 
 ```
-import 'package:animation_scroller/animation_scroller.dart';
-import 'package:flutter/material.dart';
+class AnimationScroller extends ScrollController {
+  /// Returns [value] plus 1.
+  int addOne(int value) => value + 1;
 
-void main() {
-  runApp(const MyApp());
-}
+  bool? initFlg;
+  bool? animationFlg;
+  int? durationValue;
+  double? scrollOffset;
+  double? keyboardHeight;
+  double? _animationValue;
+  double? _containerValue;
+  double? _maxScrollExtent;
 
-class MyApp extends StatelessWidget {
+  /// Notify logic of scroll status.
+  scrollState(ScrollNotification scrollNotification, double maxScrollExtent,
+      double containerValue) {
+    ///　Check the status of scrollNotification.
+    if (scrollNotification is ScrollStartNotification) {
+    } else if (scrollNotification is ScrollUpdateNotification) {
+    } else if (scrollNotification is ScrollEndNotification) {
+      scrollOffset = position.maxScrollExtent;
+      bool aFlg = (animationFlg ?? false);
 
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'EveryDaySoft_Example'),
-    );
+      /// Judgment by scroll amount.
+      _maxScrollExtent = maxScrollExtent;
+      if (_maxScrollExtent == containerValue && aFlg) {
+        animationFlg = false;
+      }
+    }
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  /// Initialization of each value.
+  reset() {
+    initFlg = true;
+    durationValue = 0;
+    scrollOffset = 0.0;
+    keyboardHeight = 0.0;
+    _animationValue = 0.0;
+    _containerValue = 0.0;
+    _maxScrollExtent = 0.0;
+    jumpTo(0.0);
+    animationFlg = false;
+  }
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  /// Bind with a widget.
+  widgetBuild(BuildContext context, double containerValue, int duration) {
+    bool iFlg = (initFlg ?? false);
+    bool aFlg = (animationFlg ?? false);
+    double kValue = (keyboardHeight ?? 0.0);
+    double cValue = (_containerValue ?? 0.0);
+    double offsetValue = (scrollOffset ?? 0.0);
 
-class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
+    /// Scroll judgment.
+    if (aFlg) {
+      /// Substitute keyboard height.
+      kValue = kValue <= MediaQuery.of(context).viewInsets.bottom
+          ? MediaQuery.of(context).viewInsets.bottom
+          : kValue;
 
-  double _containerValue = 100.0;
-  final _focusNode = FocusNode();
-  final _focusNode2 = FocusNode();
-  final GlobalKey _widgetKey = GlobalKey();
-  final GlobalKey _widgetKeyBottom = GlobalKey();
-  final AnimationScroller _scrollController = AnimationScroller();
+      /// Substitute scroll amount.
+      scrollOffset = (scrollOffset ?? 0.0) <= position.maxScrollExtent
+          ? position.maxScrollExtent
+          : (scrollOffset ?? 0.0);
 
-  @override
-  void initState() {
-    super.initState();
+      /// Scroll judgment
+      if (offsetValue > cValue && iFlg) {
+        animationFlg = false;
 
-    _focusNode.addListener(() {
-      scrollLogic(_focusNode);
+        /// Scroll animation method
+        _animationLogic(duration);
+      } else if (!iFlg) {
+        /// Scroll animation method
+        _animationLogic(duration);
+      }
+
+      _containerValue = containerValue;
+    }
+  }
+
+  /// Speed set and flg check.
+  speedCheck(FocusNode focusNode, int value) {
+    ///　check focusNode state.
+    switch (focusNode.hasFocus) {
+      case true:
+        durationValue = value;
+        animationFlg = true;
+        break;
+    }
+  }
+
+  /// Scroll animation.
+  _animationLogic(int duration) {
+    Future(() {
+      double offsetValue = (scrollOffset ?? 0.0);
+      double cValue = (_containerValue ?? 0.0);
+
+      /// Judgment by scroll amount.
+      if (offsetValue > cValue) {
+        /// Substitute the amount of animation.
+        _animationValue = offsetValue - cValue;
+        double aValue = (_animationValue ?? 0.0);
+        animateTo(aValue,
+            duration: Duration(milliseconds: duration), curve: Curves.linear);
+      }
     });
-
-    _focusNode2.addListener(() {
-      scrollLogic(_focusNode2);
-    });
-
-    _scrollController.duration = 100;
-  }
-
-  scrollLogic(FocusNode node) {
-    double value = (_widgetKey.currentContext?.size?.height ?? 0.0);
-    RenderBox box = _widgetKeyBottom.currentContext?.findRenderObject() as RenderBox;
-    double offsetFlg = MediaQuery.of(context).size.height - (_scrollController.keyboardHeight ?? 0.0) - value;
-    _scrollController.focusLogic(node, value, box, offsetFlg, (_scrollController.duration ?? 0));
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _focusNode2.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    _scrollController.widgetBuild(context, _containerValue, (_scrollController.duration ?? 0));
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-          _scrollController.reset();
-        },
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification) {
-            _scrollController.scrollState(scrollNotification, _scrollController.position.maxScrollExtent, _containerValue);
-            return true;
-          },
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  color: Colors.black,
-                  width: _containerValue,
-                  height: _containerValue,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Slider(
-                      value: _containerValue,
-                      min: 0,
-                      max: MediaQuery.of(context).size.width,
-                      divisions: 1000,
-                      onChangeStart: (_) {
-                        setState(() {
-                          _scrollController.scrollOffset = 0;
-                        });
-                      },
-                      onChanged: (double value) {
-                        setState(() {
-                          _containerValue = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                setTextFiled(_widgetKey, _focusNode),
-                const Padding(padding: EdgeInsets.only(top: 20)),
-                setTextFiled(_widgetKeyBottom, _focusNode2),
-                Container(
-                  color: Colors.black,
-                  width: _containerValue,
-                  height: _containerValue,
-                )
-              ],
-            ),
-          ),
-        ), // This
-      ), // trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-
-  TextField setTextFiled(key, focusNode) {
-    return TextField(
-      keyboardType: TextInputType.datetime,
-      key: key,
-      focusNode: focusNode,
-      onSubmitted: (value) => _scrollController.scrollReturn(200),
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'start',
-      ),
-    );
   }
 }
 ```
