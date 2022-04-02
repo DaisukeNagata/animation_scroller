@@ -12,8 +12,6 @@ and the Flutter guide for
 -->
 
 
-# Pub.dev version
-
 [![Pub Version](https://img.shields.io/pub/v/animation_scroller?color=emerald)](https://pub.dev/packages/animation_scroller/versions/)
 
 
