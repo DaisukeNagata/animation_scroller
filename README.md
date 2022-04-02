@@ -34,8 +34,8 @@ Flutter 2.10.4  Dart >=2.16.2 <3.0.0
 introduction
 
 ```
-// "Value" Scrolls to the bottom part.　 It is the place of zero
-_scrollController.widgetBuild(context, Value, _scrollController.duration);
+// "Value" Scrolls to the bottom part.　
+_scrollController.widgetBuild(context, "Value", _scrollController.duration);
      
 ```
 
