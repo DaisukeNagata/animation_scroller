@@ -36,8 +36,8 @@ Some devices may not support the behavior.
 introduction
 
 ```
-// zero Scrolls to the bottom part.　 It is the place of zero
-_scrollController.widgetBuild(context, 0, _scrollController.duration);
+// "Value" Scrolls to the bottom part.　 It is the place of zero
+_scrollController.widgetBuild(context, Value, _scrollController.duration);
      
 ```
 
@@ -51,7 +51,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -76,7 +75,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
-
   double _containerValue = 100.0;
   final _focusNode = FocusNode();
   final _focusNode2 = FocusNode();
@@ -88,22 +86,17 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   void initState() {
     super.initState();
 
+    /// Listen to the notification
     _focusNode.addListener(() {
-      scrollLogic(_focusNode);
+      /// focusNode and go to scroll speed setting
+      _scrollController.speedCheck(_focusNode);
     });
 
+    /// Listen to the notification from focusNode and go to scroll speed setting
     _focusNode2.addListener(() {
-      scrollLogic(_focusNode2);
+      /// focusNode and go to scroll speed setting
+      _scrollController.speedCheck(_focusNode2);
     });
-
-    _scrollController.duration = 100;
-  }
-
-  scrollLogic(FocusNode node) {
-    double value = (_widgetKey.currentContext?.size?.height ?? 0.0);
-    RenderBox box = _widgetKeyBottom.currentContext?.findRenderObject() as RenderBox;
-    double offsetFlg = MediaQuery.of(context).size.height - (_scrollController.keyboardHeight ?? 0.0) - value;
-    _scrollController.focusLogic(node, value, box, offsetFlg, (_scrollController.duration ?? 0));
   }
 
   @override
@@ -115,8 +108,8 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-
-    _scrollController.widgetBuild(context, _containerValue, (_scrollController.duration ?? 0));
+    /// Bind with a widget.
+    _scrollController.widgetBuild(context, _containerValue, 100);
 
     return Scaffold(
       appBar: AppBar(
@@ -125,13 +118,19 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
+
+          /// Initialize scroll value
           _scrollController.reset();
         },
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification) {
-            _scrollController.scrollState(scrollNotification, _scrollController.position.maxScrollExtent, _containerValue);
-            return true;
-          },
+
+        /// Receive scroll notifications. beta 2.17.0 logic
+        // child: NotificationListener<ScrollNotification>(
+        //   onNotification: (scrollNotification) {
+        //     /// Notifies the scroll status.
+        //     _scrollController.scrollState(scrollNotification,
+        //         _scrollController.position.maxScrollExtent, _containerValue);
+        //     return true;
+        //   },
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
@@ -152,43 +151,58 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                       divisions: 1000,
                       onChangeStart: (_) {
                         setState(() {
-                          _scrollController.scrollOffset = 0;
+                          FocusScope.of(context).unfocus();
                         });
                       },
                       onChanged: (double value) {
                         setState(() {
+                          /// The value of container is useful for the amount of animation.
                           _containerValue = value;
                         });
                       },
                     ),
                   ],
                 ),
-                setTextFiled(_widgetKey, _focusNode),
+                TextField(
+                  keyboardType: TextInputType.datetime,
+                  key: _widgetKey,
+                  focusNode: _focusNode,
+                  onTap: () {
+                    _scrollController.animationFlg = true;
+                    _scrollController.initFlg = true;
+                  },
+                  onSubmitted: (value) => _scrollController.reset(),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'start',
+                  ),
+                ),
                 const Padding(padding: EdgeInsets.only(top: 20)),
-                setTextFiled(_widgetKeyBottom, _focusNode2),
+                TextField(
+                  keyboardType: TextInputType.datetime,
+                  key: _widgetKeyBottom,
+                  focusNode: _focusNode2,
+                  onTap: () {
+                    _scrollController.animationFlg = true;
+                    _scrollController.initFlg = true;
+                  },
+
+                  /// Initialize scroll value
+                  onSubmitted: (value) => _scrollController.reset(),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'end',
+                  ),
+                ),
                 Container(
                   color: Colors.black,
                   width: _containerValue,
                   height: _containerValue,
                 )
-              ],
-            ),
+            ],
           ),
         ), // This
       ), // trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-
-  TextField setTextFiled(key, focusNode) {
-    return TextField(
-      keyboardType: TextInputType.datetime,
-      key: key,
-      focusNode: focusNode,
-      onSubmitted: (value) => _scrollController.scrollReturn(200),
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'start',
-      ),
     );
   }
 }

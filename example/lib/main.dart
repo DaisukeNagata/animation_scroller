@@ -1,3 +1,4 @@
+import 'package:animation_scroller/animation_scroller.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -85,74 +86,74 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
         //         _scrollController.position.maxScrollExtent, _containerValue);
         //     return true;
         //   },
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  color: Colors.black,
-                  width: _containerValue,
-                  height: _containerValue,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Slider(
-                      value: _containerValue,
-                      min: 0,
-                      max: MediaQuery.of(context).size.width,
-                      divisions: 1000,
-                      onChangeStart: (_) {
-                        setState(() {
-                          FocusScope.of(context).unfocus();
-                        });
-                      },
-                      onChanged: (double value) {
-                        setState(() {
-                          /// The value of container is useful for the amount of animation.
-                          _containerValue = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                TextField(
-                  keyboardType: TextInputType.datetime,
-                  key: _widgetKey,
-                  focusNode: _focusNode,
-                  onTap: () {
-                    _scrollController.animationFlg = true;
-                    _scrollController.initFlg = true;
-                  },
-                  onSubmitted: (value) => _scrollController.reset(),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'start',
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                color: Colors.black,
+                width: _containerValue,
+                height: _containerValue,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Slider(
+                    value: _containerValue,
+                    min: 0,
+                    max: MediaQuery.of(context).size.width,
+                    divisions: 1000,
+                    onChangeStart: (_) {
+                      setState(() {
+                        FocusScope.of(context).unfocus();
+                      });
+                    },
+                    onChanged: (double value) {
+                      setState(() {
+                        /// The value of container is useful for the amount of animation.
+                        _containerValue = value;
+                      });
+                    },
                   ),
+                ],
+              ),
+              TextField(
+                keyboardType: TextInputType.datetime,
+                key: _widgetKey,
+                focusNode: _focusNode,
+                onTap: () {
+                  _scrollController.animationFlg = true;
+                  _scrollController.initFlg = true;
+                },
+                onSubmitted: (value) => _scrollController.reset(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'start',
                 ),
-                const Padding(padding: EdgeInsets.only(top: 20)),
-                TextField(
-                  keyboardType: TextInputType.datetime,
-                  key: _widgetKeyBottom,
-                  focusNode: _focusNode2,
-                  onTap: () {
-                    _scrollController.animationFlg = true;
-                    _scrollController.initFlg = true;
-                  },
+              ),
+              const Padding(padding: EdgeInsets.only(top: 20)),
+              TextField(
+                keyboardType: TextInputType.datetime,
+                key: _widgetKeyBottom,
+                focusNode: _focusNode2,
+                onTap: () {
+                  _scrollController.animationFlg = true;
+                  _scrollController.initFlg = true;
+                },
 
-                  /// Initialize scroll value
-                  onSubmitted: (value) => _scrollController.reset(),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'end',
-                  ),
+                /// Initialize scroll value
+                onSubmitted: (value) => _scrollController.reset(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'end',
                 ),
-                Container(
-                  color: Colors.black,
-                  width: _containerValue,
-                  height: _containerValue,
-                )
+              ),
+              Container(
+                color: Colors.black,
+                width: _containerValue,
+                height: _containerValue,
+              )
             ],
           ),
         ), // This
