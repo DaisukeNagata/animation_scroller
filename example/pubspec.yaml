@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  animation_scroller: ^0.3.6
+  animation_scroller: ^0.3.7
 
   flutter:
     sdk: flutter
