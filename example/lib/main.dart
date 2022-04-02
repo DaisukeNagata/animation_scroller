@@ -1,4 +1,3 @@
-import 'package:animation_scroller/animation_scroller.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -44,13 +43,13 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
     /// Listen to the notification
     _focusNode.addListener(() {
       /// focusNode and go to scroll speed setting
-      _scrollController.speedCheck(_focusNode, 100);
+      _scrollController.speedCheck(_focusNode);
     });
 
     /// Listen to the notification from focusNode and go to scroll speed setting
     _focusNode2.addListener(() {
       /// focusNode and go to scroll speed setting
-      _scrollController.speedCheck(_focusNode2, 100);
+      _scrollController.speedCheck(_focusNode2);
     });
   }
 
@@ -78,14 +77,14 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
           _scrollController.reset();
         },
 
-        /// Receive scroll notifications.
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification) {
-            /// Notifies the scroll status.
-            _scrollController.scrollState(scrollNotification,
-                _scrollController.position.maxScrollExtent, _containerValue);
-            return true;
-          },
+        /// Receive scroll notifications. beta 2.17.0 logic
+        // child: NotificationListener<ScrollNotification>(
+        //   onNotification: (scrollNotification) {
+        //     /// Notifies the scroll status.
+        //     _scrollController.scrollState(scrollNotification,
+        //         _scrollController.position.maxScrollExtent, _containerValue);
+        //     return true;
+        //   },
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
@@ -106,11 +105,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                       divisions: 1000,
                       onChangeStart: (_) {
                         setState(() {
-                          /// The amount of scroll animation.
-                          _scrollController.scrollOffset = 0;
-
-                          /// Judgment flag to make scroll animation the first time
-                          _scrollController.initFlg = false;
+                          FocusScope.of(context).unfocus();
                         });
                       },
                       onChanged: (double value) {
@@ -126,6 +121,10 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                   keyboardType: TextInputType.datetime,
                   key: _widgetKey,
                   focusNode: _focusNode,
+                  onTap: () {
+                    _scrollController.animationFlg = true;
+                    _scrollController.initFlg = true;
+                  },
                   onSubmitted: (value) => _scrollController.reset(),
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -137,6 +136,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                   keyboardType: TextInputType.datetime,
                   key: _widgetKeyBottom,
                   focusNode: _focusNode2,
+                  onTap: () {
+                    _scrollController.animationFlg = true;
+                    _scrollController.initFlg = true;
+                  },
+
                   /// Initialize scroll value
                   onSubmitted: (value) => _scrollController.reset(),
                   decoration: const InputDecoration(
@@ -149,8 +153,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                   width: _containerValue,
                   height: _containerValue,
                 )
-              ],
-            ),
+            ],
           ),
         ), // This
       ), // trailing comma makes auto-formatting nicer for build methods.

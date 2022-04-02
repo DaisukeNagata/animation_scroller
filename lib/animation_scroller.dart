@@ -6,14 +6,11 @@ class AnimationScroller extends ScrollController {
   /// Returns [value] plus 1.
   int addOne(int value) => value + 1;
 
+  int? _durationValue;
   bool? initFlg;
   bool? animationFlg;
-  int? durationValue;
   double? scrollOffset;
-  double? keyboardHeight;
   double? _animationValue;
-  double? _containerValue;
-  double? _maxScrollExtent;
 
   /// Notify logic of scroll status.
   scrollState(ScrollNotification scrollNotification, double maxScrollExtent,
@@ -22,26 +19,24 @@ class AnimationScroller extends ScrollController {
     if (scrollNotification is ScrollStartNotification) {
     } else if (scrollNotification is ScrollUpdateNotification) {
     } else if (scrollNotification is ScrollEndNotification) {
-      scrollOffset = position.maxScrollExtent;
-      bool aFlg = (animationFlg ?? false);
+      /// Notify logic of scroll status. beta dart 2.17.0 logic
+      // bool aFlg = (animationFlg ?? false);
 
       /// Judgment by scroll amount.
-      _maxScrollExtent = maxScrollExtent;
-      if (_maxScrollExtent == containerValue && aFlg) {
-        animationFlg = false;
-      }
+      // _maxScrollExtent = maxScrollExtent;
+      // if (_maxScrollExtent == containerValue && aFlg) {
+      //   animationFlg = false;
+      //   initFlg = false;
+      //   _animationLogic(containerValue);
+      // }
     }
   }
 
   /// Initialization of each value.
   reset() {
-    initFlg = true;
-    durationValue = 0;
+    initFlg = false;
     scrollOffset = 0.0;
-    keyboardHeight = 0.0;
     _animationValue = 0.0;
-    _containerValue = 0.0;
-    _maxScrollExtent = 0.0;
     jumpTo(0.0);
     animationFlg = false;
   }
@@ -50,58 +45,43 @@ class AnimationScroller extends ScrollController {
   widgetBuild(BuildContext context, double containerValue, int duration) {
     bool iFlg = (initFlg ?? false);
     bool aFlg = (animationFlg ?? false);
-    double kValue = (keyboardHeight ?? 0.0);
-    double cValue = (_containerValue ?? 0.0);
-    double offsetValue = (scrollOffset ?? 0.0);
+    _durationValue = duration;
+    double offset = (scrollOffset ?? 0.0);
 
     /// Scroll judgment.
     if (aFlg) {
-      /// Substitute keyboard height.
-      kValue = kValue <= MediaQuery.of(context).viewInsets.bottom
-          ? MediaQuery.of(context).viewInsets.bottom
-          : kValue;
-
       /// Substitute scroll amount.
       scrollOffset = (scrollOffset ?? 0.0) <= position.maxScrollExtent
           ? position.maxScrollExtent
           : (scrollOffset ?? 0.0);
 
-      /// Scroll judgment
-      if (offsetValue > cValue && iFlg) {
-        animationFlg = false;
-
-        /// Scroll animation method
-        _animationLogic(duration);
-      } else if (!iFlg) {
-        /// Scroll animation method
-        _animationLogic(duration);
+      /// Judging a certain animation
+      if (offset > containerValue && iFlg) {
+        iFlg = false;
+        _animationLogic(containerValue);
       }
-
-      _containerValue = containerValue;
     }
   }
 
   /// Speed set and flg check.
-  speedCheck(FocusNode focusNode, int value) {
-    ///　check focusNode state.
+  speedCheck(FocusNode focusNode) {
+    ///　Check focusNode state.
     switch (focusNode.hasFocus) {
       case true:
-        durationValue = value;
-        animationFlg = true;
         break;
     }
   }
 
   /// Scroll animation.
-  _animationLogic(int duration) {
+  _animationLogic(double containerValue) {
     Future(() {
       double offsetValue = (scrollOffset ?? 0.0);
-      double cValue = (_containerValue ?? 0.0);
+      int duration = (_durationValue ?? 0);
 
       /// Judgment by scroll amount.
-      if (offsetValue > cValue) {
+      if (offsetValue >= containerValue) {
         /// Substitute the amount of animation.
-        _animationValue = offsetValue - cValue;
+        _animationValue = offsetValue - containerValue;
         double aValue = (_animationValue ?? 0.0);
         animateTo(aValue,
             duration: Duration(milliseconds: duration), curve: Curves.linear);
