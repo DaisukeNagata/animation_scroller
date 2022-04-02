@@ -17,13 +17,6 @@ and the Flutter guide for
 [![Pub Version](https://img.shields.io/pub/v/animation_scroller?color=emerald)](https://pub.dev/packages/animation_scroller/versions/)
 
 
-## Movie
-
-
-https://user-images.githubusercontent.com/16457165/161368460-6be0faf7-ba1a-4785-821f-f757a604d913.mp4
-
-
-
 
 ## Environment
 
@@ -34,7 +27,8 @@ Flutter 2.10.4  Dart >=2.16.2 <3.0.0
 
 ## Example
 
-Some devices may not support the behavior.
+
+<img src="https://user-images.githubusercontent.com/16457165/161369235-96df538f-a532-4122-a918-c7bdd2470ca8.gif?raw=true" width="400"/>
 
 
 introduction
