@@ -38,34 +38,9 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   final AnimationScroller _scrollController = AnimationScroller();
 
   @override
-  void initState() {
-    super.initState();
-
-    /// Listen to the notification
-    _focusNode.addListener(() {
-      /// focusNode and go to scroll speed setting
-      _scrollController.speedCheck(_focusNode);
-    });
-
-    /// Listen to the notification from focusNode and go to scroll speed setting
-    _focusNode2.addListener(() {
-      /// focusNode and go to scroll speed setting
-      _scrollController.speedCheck(_focusNode2);
-    });
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _focusNode2.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     /// Bind with a widget.
-    _scrollController.widgetBuild(context, _containerValue, 100);
-
+    _scrollController.widgetBuild(_containerValue, 1);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -77,15 +52,6 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
           /// Initialize scroll value
           _scrollController.reset();
         },
-
-        /// Receive scroll notifications. beta 2.17.0 logic
-        // child: NotificationListener<ScrollNotification>(
-        //   onNotification: (scrollNotification) {
-        //     /// Notifies the scroll status.
-        //     _scrollController.scrollState(scrollNotification,
-        //         _scrollController.position.maxScrollExtent, _containerValue);
-        //     return true;
-        //   },
         child: SingleChildScrollView(
           controller: _scrollController,
           child: Column(
@@ -115,6 +81,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                         _containerValue = value;
                       });
                     },
+                    onChangeEnd: (value) {
+                      /// Initialize scroll value
+                      _scrollController.reset();
+                      _containerValue = value;
+                    },
                   ),
                 ],
               ),
@@ -125,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                 onTap: () {
                   _scrollController.animationFlg = true;
                   _scrollController.initFlg = true;
+                  _scrollController.speedCheck();
                 },
                 onSubmitted: (value) => _scrollController.reset(),
                 decoration: const InputDecoration(
@@ -140,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                 onTap: () {
                   _scrollController.animationFlg = true;
                   _scrollController.initFlg = true;
+                  _scrollController.speedCheck();
                 },
 
                 /// Initialize scroll value

@@ -42,7 +42,7 @@ class AnimationScroller extends ScrollController {
   }
 
   /// Bind with a widget.
-  widgetBuild(BuildContext context, double containerValue, int duration) {
+  widgetBuild(double containerValue, int duration) {
     bool iFlg = (initFlg ?? false);
     bool aFlg = (animationFlg ?? false);
     _durationValue = duration;
@@ -64,12 +64,8 @@ class AnimationScroller extends ScrollController {
   }
 
   /// Speed set and flg check.
-  speedCheck(FocusNode focusNode) {
-    ///　Check focusNode state.
-    switch (focusNode.hasFocus) {
-      case true:
-        break;
-    }
+  speedCheck() {
+    animationFlg = true;
   }
 
   /// Scroll animation.
